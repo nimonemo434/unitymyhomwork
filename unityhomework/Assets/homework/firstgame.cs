@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class firstgame : MonoBehaviour
 {
 
     float rotspeed = 0;
     bool isplay = false;
+    GameObject chance;
     // Start is called before the first frame update
     void Start()
     {
-        
+        chance = GameObject.Find("chance");
     }
 
     // Update is called once per frame
@@ -39,29 +41,37 @@ public class firstgame : MonoBehaviour
     }
     void resultluck(float therot)
     {
-        if(therot > 330f && therot <= 360 || therot > 0f && therot <= 30)
+        int carMoveChance = 0;
+
+        if (therot > 330f && therot <= 360 || therot > 0f && therot <= 30)
         {
-            Debug.Log("1");
+            chance.GetComponent<Text>().text = "·ê·¿ °á°ú : 1 ";
+            carMoveChance = 1;
         }
         else if (therot > 30f && therot <= 90f)
         {
-            Debug.Log("2");
+            chance.GetComponent<Text>().text = "·ê·¿ °á°ú : 2 ";
+            carMoveChance = 2;
         }
         else if (therot > 90f && therot <= 150f)
         {
-            Debug.Log("1");
+            chance.GetComponent<Text>().text = "·ê·¿ °á°ú : 1 ";
+            carMoveChance = 1;
         }
         else if (therot > 150f && therot <= 210f)
         {
-            Debug.Log("3");
+            chance.GetComponent<Text>().text = "·ê·¿ °á°ú : 3 ";
+            carMoveChance = 3;
         }
         else if (therot > 210f && therot <= 270f)
         {
-            Debug.Log("2");
+            chance.GetComponent<Text>().text = "·ê·¿ °á°ú : 2 ";
+            carMoveChance = 2;
         }
         else if (therot > 270f && therot <= 330f)
         {
-            Debug.Log("4");
+            chance.GetComponent<Text>().text = "·ê·¿ °á°ú : 4 ";
+            carMoveChance = 4;
         }
     }
 }
