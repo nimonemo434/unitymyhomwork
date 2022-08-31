@@ -1,0 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Roucon1 : MonoBehaviour
+{
+    public List<GameObject> circleObjectList;
+    public GameObject needle;
+
+    float rotSpeed = 0; //회전 속도
+    bool isPlay = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ////클릭하면 회전 한다.
+        if (Input.GetMouseButtonDown(0))
+        {
+            rotSpeed = 10;
+            isPlay = true;  //플레이값 true 로 변경
+        }
+
+        //지금 플레이중인가?
+        if (isPlay == false)
+        {
+            //아니라면 Update문 종료
+            return;
+        }
+        //플레이중이라면 진행함
+
+        //속도를 줄인다
+        rotSpeed *= 0.95f;
+
+        //회전 속도만큼 룰렛을 회전시킨다.
+        gameObject.transform.Rotate(0, 0, rotSpeed);
+
+        //rotSpeed는 0이 아닌 다른 값을 곱하면 0은 절대 나오지 않는다.
+        //원하는 일정 값 이하로 떨어지면 0 으로 고정한다.
+        if (rotSpeed < 0.001f)
+        {
+            rotSpeed = 0;
+
+            //저장할 최소 거리(초기화 숫자가 커야 비교할때 최소값을 구함)
+            float minDistace = 999999;
+            //최소거리에 있는 번째 오브젝트(넘버)
+            int minNumber = 0;
+
+            //리스트에 있는 모든 오브젝트들과 거리를 비교한다
+            for (int number = 0; number < circleObjectList.Count; number++)
+            {
+                //Needle과 현재 오브젝트의 거리를 구한다.
+                float nowDistance =
+                    Vector2.Distance(needle.transform.position,
+                    circleObjectList[number].transform.position);
+
+                //만약, 가지고 있는 최소값보다 작다면 저장한다.
+                if (nowDistance < minDistace)
+                {
+                    //최소값과 넘버를 갱신함.
+                    minDistace = nowDistance;
+                    minNumber = number;
+                }
+            }
+
+            //계산해서 나온 가장가까운 녀석의 오브젝트 이름 도출
+            Debug.Log(circleObjectList[minNumber].transform.name);
+
+            //플레이 끝
+            isPlay = false;
+        }
+    }
+}

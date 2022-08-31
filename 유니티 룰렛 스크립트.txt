@@ -1,0 +1,84 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Roucon : MonoBehaviour
+{
+    float rotSpeed = 0; //회전 속도
+    bool isStop = false;
+    bool isPlay = false;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ////클릭하면 회전 한다.
+        if(Input.GetMouseButtonDown(0))
+        {
+            rotSpeed = 10;
+            isPlay = true;  //플레이값 true 로 변경
+        }
+
+        //지금 플레이중인가?
+        if(isPlay == false)
+        {
+            //아니라면 Update문 종료
+            return;
+        }
+        //플레이중이라면 진행함
+
+        //속도를 줄인다
+        rotSpeed *= 0.95f;
+
+        //회전 속도만큼 룰렛을 회전시킨다.
+        gameObject.transform.Rotate(0, 0, rotSpeed);
+
+        //rotSpeed는 0이 아닌 다른 값을 곱하면 0은 절대 나오지 않는다.
+        //원하는 일정 값 이하로 떨어지면 0 으로 고정한다.
+        if(rotSpeed < 0.0001f)
+        {
+            rotSpeed = 0;
+            
+            //게임이 끝났으니 결과를 도출한다
+            ResultLuck(gameObject.transform.eulerAngles.z);
+            //게임이 끝났으니 false로 변경한다.
+            isPlay = false;
+        }
+
+    }
+
+    void ResultLuck(float theRot)
+    {
+        //지금 룰렛의 각도에 따라 값을 도출한다.
+        if (theRot > 330f && theRot <= 360
+            || theRot > 0f && theRot <= 30)
+        {
+            Debug.Log("운수 나쁨");
+        }
+        else if (theRot > 30f && theRot <= 90f)
+        {
+            Debug.Log("운수 대통");
+        }
+        else if (theRot > 90f && theRot <= 150f)
+        {
+            Debug.Log("운수 매우 나쁨");
+        }
+        else if (theRot > 150f && theRot <= 210f)
+        {
+            Debug.Log("운수 보통");
+        }
+        else if (theRot > 210f && theRot <= 270f)
+        {
+            Debug.Log("운수 조심");
+        }
+        else if (theRot > 270f && theRot <= 330f)
+        {
+            Debug.Log("운수 좋음");
+        }
+    }
+}
