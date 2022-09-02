@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\homework\firstgame.cs" />
+    <Compile Include="Assets\homework\carmove.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
