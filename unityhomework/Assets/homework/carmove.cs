@@ -46,6 +46,10 @@ public class carmove : MonoBehaviour
             transform.Translate(speed, 0, 0);
 
             speed *= 0.98f;
+            if(speed < 0.00001f)
+            {
+                speed = 0;
+            }
 
             if (GameObject.Find("roulette").GetComponent<firstgame>().carMoveChance == 0) 
             {
