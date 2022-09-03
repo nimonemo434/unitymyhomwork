@@ -8,10 +8,14 @@ public class carmove : MonoBehaviour
     float speed = 0;
     Vector2 startpos;
     int anotherchance;
+    GameObject car;
+    GameObject flag;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        car = GameObject.Find("car");
+        flag = GameObject.Find("flag");
     }
 
     // Update is called once per frame
@@ -45,7 +49,16 @@ public class carmove : MonoBehaviour
 
             if (GameObject.Find("roulette").GetComponent<firstgame>().carMoveChance == 0) 
             {
-                GameObject.Find("chance").GetComponent<Text>().text = "게임 끝.";
+                float length = flag.transform.position.x - car.transform.position.x;
+
+                if (length <= 5 && length >= -5)
+                {
+                    GameObject.Find("chance").GetComponent<Text>().text = "승리";
+                }
+                else
+                {
+                    GameObject.Find("chance").GetComponent<Text>().text = "패배";
+                }
             }
         }
     }
