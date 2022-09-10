@@ -57,6 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MusicGame\Script\GameStart.cs" />
+    <Compile Include="Assets\MusicGame\Script\GameManager.cs" />
+    <Compile Include="Assets\MusicGame\Script\Arrowdown.cs" />
+    <Compile Include="Assets\MusicGame\Script\JumpArrowGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
