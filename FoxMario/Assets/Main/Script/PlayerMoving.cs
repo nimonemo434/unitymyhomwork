@@ -44,7 +44,7 @@ public class PlayerMoving : MonoBehaviour
             rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
         }
 
-        if (Input.GetButtonDown("Horizontal")) // 방향 전환
+        if (Input.GetButton("Horizontal")) // 방향 전환
             spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
 
         // run 애니메이션 활성화
@@ -63,5 +63,51 @@ public class PlayerMoving : MonoBehaviour
                 // 물리적인 거리가 1보다 작다면 점프 애니메이션 비활성화
             }
         }       
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) // 무언가와 닿았을때
+    {
+        if (collision.gameObject.tag == "monster") // 몬스터와 닿았을때
+        {
+            if(rigid.velocity.y < 0 && transform.position.y > collision.transform.position.y) //  몬스터 보다 위에서 닿았다면 공격
+            {
+                onAttack(collision.transform);
+            }
+            else onDamaged(collision.transform.position); // 그외 경우 데미지를 받는다
+        }
+    }
+
+     void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "item")
+        {
+            collision.gameObject.SetActive(false);
+        }
+    }
+
+    void onAttack(Transform monster) // 공격
+    {
+        rigid.AddForce(Vector2.up * 20, ForceMode2D.Impulse); // 공격후 튀어오름
+
+        FrogMoving frogmove = monster.GetComponent<FrogMoving>(); // 적 스크립트 초기화
+        frogmove.onDamaged(); // 공격받은 적의 코드
+    }
+    void onDamaged(Vector2 targetPos) // 데미지
+    {
+        gameObject.layer = 11; // 다른 레이어로 변경
+
+        spriteRenderer.color = new Color(1, 1, 1, 0.8f); // 투명화
+
+        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1; // 방향
+        rigid.AddForce(new Vector2(dirc, 1)*10, ForceMode2D.Impulse); // 밀려나는 힘
+
+        anim.SetTrigger("hurt"); // 애니메이션 활성
+        Invoke("offDamaged", 3); // 초기화 코드
+    }
+
+    void offDamaged() // 초기화
+    {
+        gameObject.layer = 10;
+        spriteRenderer.color = new Color(1, 1, 1, 1);
     }
 }
